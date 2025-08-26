@@ -1,5 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { JSDOM } from 'jsdom';
+import { parseDocument } from 'htmlparser2';
+import type { Element, Document, Node } from 'domhandler';
 
 const MAX_BYTES = 800_000;
 const REQ_TIMEOUT_MS = 15000;
@@ -55,19 +56,92 @@ function sanitizeHtml(html: string) {
 		.slice(0, MAX_BYTES);
 }
 
+// Helper functions for DOM traversal
+function getElementsByTagName(dom: Node[], tagName: string): Element[] {
+	const results: Element[] = [];
+	
+	function traverse(nodes: Node[]) {
+		for (const node of nodes) {
+			if (node.type === 'tag') {
+				const element = node as Element;
+				if (element.name.toLowerCase() === tagName.toLowerCase()) {
+					results.push(element);
+				}
+			}
+			if (node.children) {
+				traverse(node.children);
+			}
+		}
+	}
+	
+	traverse(dom);
+	return results;
+}
+
+function getElementsByAttribute(dom: Node[], attrName: string, attrValue?: string): Element[] {
+	const results: Element[] = [];
+	
+	function traverse(nodes: Node[]) {
+		for (const node of nodes) {
+			if (node.type === 'tag') {
+				const element = node as Element;
+				if (element.attribs) {
+					if (attrValue) {
+						if (element.attribs[attrName] === attrValue) {
+							results.push(element);
+						}
+					} else if (element.attribs[attrName]) {
+						results.push(element);
+					}
+				}
+			}
+			if (node.children) {
+				traverse(node.children);
+			}
+		}
+	}
+	
+	traverse(dom);
+	return results;
+}
+
+function getTextContent(node: Node): string {
+	let text = '';
+	
+	function traverse(n: Node) {
+		if (n.type === 'text') {
+			text += (n as any).data;
+		}
+		if (n.children) {
+			for (const child of n.children) {
+				traverse(child);
+			}
+		}
+	}
+	
+	traverse(node);
+	return text;
+}
+
 async function extract(url: string) {
 	const base = new URL(url);
 	const htmlRaw = await fetchWithLimit(url);
 	if (!htmlRaw) return null;
 	const html = sanitizeHtml(htmlRaw);
-	const dom = new JSDOM(html);
-	const doc = dom.window.document;
+	const doc = parseDocument(html);
 
-	const title = doc.querySelector('title')?.textContent?.trim() || '';
-	const metaDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+	// Extract title
+	const titleElements = getElementsByTagName(doc.children, 'title');
+	const title = titleElements.length > 0 ? getTextContent(titleElements[0]).trim() : '';
 
-	const links = Array.from(doc.querySelectorAll('link[rel="stylesheet"]'))
-		.map((l) => l.getAttribute('href'))
+	// Extract meta description
+	const metaElements = getElementsByAttribute(doc.children, 'name', 'description');
+	const metaDesc = metaElements.length > 0 && metaElements[0].attribs ? metaElements[0].attribs['content'] || '' : '';
+
+	// Extract stylesheet links
+	const linkElements = getElementsByAttribute(doc.children, 'rel', 'stylesheet');
+	const links = linkElements
+		.map((l) => l.attribs?.href)
 		.filter(Boolean)
 		.slice(0, MAX_STYLESHEETS) as string[];
 
@@ -77,10 +151,15 @@ async function extract(url: string) {
 			const abs = new URL(href!, base).toString();
 			const css = await fetchWithLimit(abs);
 			if (css) cssContents.push(css.slice(0, MAX_BYTES / 3));
-		} catch {}
+		} catch {
+			// Ignore failed CSS fetches
+		}
 	}
 
-	const textSample = doc.body?.textContent?.replace(/\s+/g, ' ').trim().slice(0, 5000) || '';
+	// Extract text sample from body
+	const bodyElements = getElementsByTagName(doc.children, 'body');
+	const textSample = bodyElements.length > 0 ? 
+		getTextContent(bodyElements[0]).replace(/\s+/g, ' ').trim().slice(0, 5000) : '';
 
 	return {
 		url,

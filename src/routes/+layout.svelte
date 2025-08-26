@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/logo.png';
 	import { onMount } from 'svelte';
 
 	let { children } = $props();
@@ -59,7 +59,7 @@
 				class="text-subheading font-semibold text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-accent-primary)]"
 				onclick={closeMobileNav}
 			>
-				CSS Extractor
+				Design Analyser
 			</a>
 
 			<!-- Desktop Navigation -->

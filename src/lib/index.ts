@@ -8,6 +8,3 @@ export { default as HeroSection } from './components/HeroSection.svelte';
 export { default as URLForm } from './components/URLForm.svelte';
 export { default as AnalysisResults } from './components/AnalysisResults.svelte';
 export { default as UnifiedBrief } from './components/UnifiedBrief.svelte';
-
-// Utility functions if needed
-export * from './openai';
