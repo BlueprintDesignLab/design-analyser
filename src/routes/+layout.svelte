@@ -272,10 +272,10 @@
 			<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 				<!-- Brand Section -->
 				<div class="space-y-4">
-					<h3 class="text-lg font-semibold text-[var(--color-text-primary)]">CSS Extractor</h3>
+					<h3 class="text-lg font-semibold text-[var(--color-text-primary)]">Design Analyser</h3>
 					<p class="text-sm text-[var(--color-text-tertiary)] leading-relaxed">
-						Extract and analyze CSS design patterns from any website. Get implementation-ready
-						design briefs with colors, typography, spacing, and layout systems.
+						Analyse and extract design insights from any website. Get implementation-ready
+						design briefs with colours, typography, spacing, and layout systems.
 					</p>
 				</div>
 

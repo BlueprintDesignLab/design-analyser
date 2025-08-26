@@ -1,4 +1,4 @@
-name = "css-extractor"
+name = "design-analyser"
 main = ".svelte-kit/cloudflare/index.js"
 compatibility_date = "2024-11-21"
 account_id = "9efb1e837e3b424025050e385d2378e0"

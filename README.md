@@ -1,13 +1,13 @@
-# CSS/Layout Prompt Extractor (Svelte 5 + SvelteKit + OpenAI)
+# Design Analyser (Svelte 5 + SvelteKit + OpenAI)
 
-Generate a master prompt to guide LLMs in recreating layout and styling inspired by up to three public reference websites. The app server-side fetches and summarizes HTML/CSS, merges design signals, and produces a brand-safe, accessibility-minded prompt using OpenAI.
+Analyse and generate design insights from up to three public reference websites. The app server-side fetches and summarises HTML/CSS, merges design signals, and produces a brand-safe, accessibility-minded analysis using OpenAI.
 
 ## Features
 
 - Input up to 3 public URLs
 - Server-side fetching of HTML and linked stylesheets (first-level)
 - Summarization into design tokens, layout landmarks, and component patterns
-- Master prompt generation using OpenAI gpt-5
+- Design analysis generation using OpenAI gpt-5
 - Copy-to-clipboard and Download as .md
 - Guardrails to avoid copying proprietary assets/branding
 - No persistence; API key never exposed to the client
@@ -31,7 +31,7 @@ Generate a master prompt to guide LLMs in recreating layout and styling inspired
     - Layout: landmarks, grids, content width, breakpoints, section rhythm
     - Components: buttons, cards, forms, navs, footers
     - Accessibility cues: focus states, contrast hints, landmarks
-  - Calls OpenAI gpt-5 to produce a single “master prompt” focused on code generation
+  - Calls OpenAI gpt-5 to produce a comprehensive design analysis focused on code generation
   - Explicit constraints to avoid branding and copying; “inspired-by” framing
 
 ## Prerequisites
@@ -59,7 +59,7 @@ Generate a master prompt to guide LLMs in recreating layout and styling inspired
 
 1. Enter up to three public URLs (http/https).
 2. Click “Generate”.
-3. Review the resulting master prompt; use Copy or Download .md.
+3. Review the resulting design analysis; use Copy or Download .md.
 
 Fetching behavior:
 
@@ -82,7 +82,7 @@ Notes:
 
 ## OpenAI Output
 
-The master prompt:
+The design analysis:
 
 - Consolidates signals from all references into a coherent, code-focused guide
 - Emphasizes accessibility (WCAG AA), focus states, ARIA landmarks
@@ -93,7 +93,7 @@ The master prompt:
 
 - Do not copy brand assets, logos, or proprietary content
 - Do not reproduce unique protected designs verbatim
-- The prompt is framed as “inspired by” public references
+- The analysis is framed as "inspired by" public references
 - You are responsible for compliance with applicable laws/terms
 
 ## Limits and Reliability

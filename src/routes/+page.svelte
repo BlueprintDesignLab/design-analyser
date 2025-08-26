@@ -121,7 +121,7 @@
 <div class="main-container">
 	<!-- Hero Section -->
 	<HeroSection
-		title="CSS Design Pattern <span class='text-[var(--color-accent-primary)]'>Extractor</span>"
+		title="Design <span class='text-[var(--color-accent-primary)]'>Analyser</span>"
 	/>
 
 	<!-- System Prompt Configuration Button -->
