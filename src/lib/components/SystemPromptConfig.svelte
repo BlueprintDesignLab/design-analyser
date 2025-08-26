@@ -77,7 +77,7 @@
 						id="analysis-prompt"
 						class="config-textarea large"
 						bind:value={editConfig.analysisPrompt}
-						rows="12"
+						rows="4"
 						placeholder="Enter the analysis prompt template..."
 					></textarea>
 				</div>
@@ -199,11 +199,7 @@
 		resize: vertical;
 		transition: all var(--duration-normal) var(--easing-standard);
 	}
-
-	.config-textarea.large {
-		font-size: var(--font-size-xs);
-	}
-
+	
 	.config-input {
 		font-family: var(--font-body);
 		resize: none;
