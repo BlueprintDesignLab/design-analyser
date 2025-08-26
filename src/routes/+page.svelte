@@ -4,13 +4,14 @@
 	import AnalysisResults from '$lib/components/AnalysisResults.svelte';
 	import UnifiedBrief from '$lib/components/UnifiedBrief.svelte';
 	import Alert from '$lib/components/Alert.svelte';
+  
 	import AnalysisService, { type SiteData } from '$lib/components/AnalysisService.svelte';
 	import SystemPromptConfig from '$lib/components/SystemPromptConfig.svelte';
   
 	import { analysisConfig } from '$lib/stores/analysisConfig.svelte';
 
 	// State management
-	let urls = $state<string[]>(['https://www.apple.com/iphone/', 'https://zen-browser.app/', 'https://svelte.dev/']);
+	let urls = $state<string[]>(['https://www.apple.com/', 'https://zen-browser.app/', 'https://svelte.dev/']);
 	let generating = $state<boolean[]>([]);
 	let loading = $state(false);
 	let error = $state<string | null>(null);
